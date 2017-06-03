@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html ng-app="flexiple">
+<head>
+	<title>Post a Project</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+	<div class="container" ng-controller="postProjectController">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="page-header">
+					<h1>{{!formValid ? "Post a Project" : "Project Posted"}}</h1>
+				</div>
+			</div>
+		</div>
+		<!-- form -->
+		<div class="row" ng-if="!formValid">
+			<div class="col-xs-12">
+				<form ng-submit="postProject(project)" name="project" novalidate>
+					<div class="form-group" ng-class="{'has-error': project.resourceType.$invalid && submitted}">
+						<label>What are you looking for?</label>
+						<div>
+						<label class="radio-inline">
+							<input type="radio" name="resourceType" id="developer" value="dev" required ng-model="formData.resourceType">
+    						Developer
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="resourceType" id="content-writer" value="cont_write" required ng-model="formData.resourceType">
+    						Content Writer
+						</label>
+						</div>
+						<span class="help-block" ng-if="project.resourceType.$invalid && submitted">This field is required.</span>
+					</div>
+					<div class="form-group" ng-if="isDeveloper" ng-class="{'has-error': project.duration.$invalid && submitted}">
+						<label>Duration of Project</label>
+						<div>
+						<label class="radio-inline">
+							<input type="radio" name="duration" id="l_two" value="l_2months" ng-model="formData.duration" required>
+    						&lt; 2 months
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="duration" id="two_six" value="2_6months" ng-model="formData.duration" required>
+    						2-6 months
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="duration" id="g_six" value="m_6months" ng-model="formData.duration" required>
+    						&gt; 6 months
+						</label>
+						</div>
+						<span class="help-block" ng-if="project.duration.$invalid && submitted">This field is required.</span>
+					</div>
+					<div class="form-group" ng-if="isDeveloper" ng-class="{'has-error': project.timeCommitment.$invalid && submitted}">
+						<label>Time Commitment</label>
+						<div>
+						<label class="radio-inline">
+							<input type="radio" name="timeCommitment" id="twenty_hrs" value="20_hrs" ng-model="formData.timeCommitment" required>
+    						20 hrs/week
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="timeCommitment" id="fourty_hrs" value="40_hrs" ng-model="formData.timeCommitment" required>
+    						40 hr/week
+						</label>
+						</div>
+						<span class="help-block" ng-if="project.timeCommitment.$invalid && submitted">This field is required.</span>
+					</div>
+					<div class="form-group" ng-if="isContentWriter" ng-class="{'has-error': project.contentType.$invalid && submitted}">
+						<label>What type of content?</label>
+						<div>
+						<label class="radio-inline">
+							<input type="radio" name="contentType" id="blog" value="blog" ng-model="formData.contentType" required>
+    						Blogs
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="contentType" id="copywrite" value="copywrite" ng-model="formData.contentType" required>
+    						Copywriting
+						</label>
+						</div>
+						<span class="help-block" ng-if="project.contentType.$invalid && submitted">This field is required.</span>
+					</div>
+					<div class="form-group" ng-if="isBlog" ng-class="{'has-error': project.blogLength.$invalid && submitted}">
+						<label>Blog Length</label>
+						<div>
+						<label class="radio-inline">
+							<input type="radio" name="blogLength" id="blog_400" value="400-500" ng-model="formData.blogLength" required>
+    						400-500 words
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="blogLength" id="blog_800" value="800-1000" ng-model="formData.blogLength" required>
+    						800-1000 words
+						</label>
+						</div>
+						<span class="help-block" ng-if="project.blogLength.$invalid && submitted">This field is required.</span>
+					</div>
+					<div class="form-group" ng-if="isCopyWrite" ng-class="{'has-error': project.massCamp.$invalid && submitted}">
+						<label>Mass Campaign?</label>
+						<div>
+						<label class="radio-inline">
+							<input type="radio" name="massCamp" id="blog_400" value="yes" ng-model="formData.massCamp" required>
+    						Yes
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="massCamp" id="blog_800" value="no" ng-model="formData.massCamp" required>
+    						No
+						</label>
+						</div>
+						<span class="help-block" ng-if="project.massCamp.$invalid && submitted">This field is required.</span>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- /form -->
+		<!-- Submitted Values -->
+		<div class="row" ng-if="formValid">
+			<div class="col-xs-12">
+				<div class="form-group" ng-switch="formData.resourceType" ng-if="formData.resourceType">
+					<label>What are you looking for?</label>
+					<div ng-switch-when="dev">
+						Developer
+					</div>
+					<div ng-switch-when="cont_write">
+						Content Writer
+					</div>
+				</div>
+				<div class="form-group" ng-switch="formData.duration" ng-if="formData.duration">
+					<label>Duration of Project</label>
+					<div ng-switch-when="l_2months">
+						&lt; 2 months  
+					</div>
+					<div ng-switch-when="2_6months">
+						2-6 months
+					</div>
+					<div ng-switch-when="m_6months">
+						&gt; 6 months
+					</div>
+				</div>
+				<div class="form-group" ng-switch="formData.timeCommitment" ng-if="formData.timeCommitment">
+					<label>Time Commitment</label>
+					<div ng-switch-when="20_hrs">
+						20 hrs/week
+					</div>
+					<div ng-switch-when="40_hrs">
+						40 hr/week
+					</div>
+				</div>
+				<div class="form-group" ng-switch="formData.contentType" ng-if="formData.contentType">
+					<label>What type of content?</label>
+					<div ng-switch-when="blog">
+						Blogs
+					</div>
+					<div ng-switch-when="copywrite">
+						Copywriting
+					</div>
+				</div>
+				<div class="form-group" ng-switch="formData.blogLength" ng-if="formData.blogLength">
+					<label>Blog Length</label>
+					<div ng-switch-when="blog_400">
+						400-500 words
+					</div>
+					<div ng-switch-when="blog_800">
+						800-1000 words
+					</div>
+				</div>
+				<div class="form-group" ng-switch="formData.massCamp" ng-if="formData.massCamp">
+					<label>Mass Campaign?</label>
+					<div ng-switch-when="yes">
+						Yes
+					</div>
+					<div ng-switch-when="no">
+						No
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /Submitted Values -->
+	</div>
+</body>
+</html>
