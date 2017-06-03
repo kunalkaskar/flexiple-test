@@ -1,10 +1,7 @@
 angular.module('flexiple', [])
 .controller('postProjectController', ['$scope', function($scope) {
 
-	$scope.formData = {
-		resourceType : "",
-		duration	: ""
-	}
+	$scope.formData = {};
 	$scope.isContentWriter = false;
 	$scope.isDeveloper = false;
 	$scope.formValid = false;
@@ -35,8 +32,11 @@ angular.module('flexiple', [])
 
 	$scope.submitted = false;
 	$scope.postProject = function(project) {
+		$scope.submitted = true;
 		if(project.$valid){
 			$scope.formValid = true;
+		}else {
+			return false;
 		}
 	}
 }]);

@@ -97,11 +97,11 @@
 						<label>Mass Campaign?</label>
 						<div>
 						<label class="radio-inline">
-							<input type="radio" name="massCamp" id="blog_400" value="yes" ng-model="formData.massCamp" required>
+							<input type="radio" name="massCamp" id="mass_yes" value="yes" ng-model="formData.massCamp" required>
     						Yes
 						</label>
 						<label class="radio-inline">
-							<input type="radio" name="massCamp" id="blog_800" value="no" ng-model="formData.massCamp" required>
+							<input type="radio" name="massCamp" id="mass_no" value="no" ng-model="formData.massCamp" required>
     						No
 						</label>
 						</div>
@@ -158,10 +158,10 @@
 				</div>
 				<div class="form-group" ng-switch="formData.blogLength" ng-if="formData.blogLength">
 					<label>Blog Length</label>
-					<div ng-switch-when="blog_400">
+					<div ng-switch-when="400-500">
 						400-500 words
 					</div>
-					<div ng-switch-when="blog_800">
+					<div ng-switch-when="800-1000">
 						800-1000 words
 					</div>
 				</div>
